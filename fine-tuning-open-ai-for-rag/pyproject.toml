@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "fine-tuning-open-ai-for-rag"
+version = "0.1.0"
+description = ""
+authors = ["Kody Buss <kody.buss@zelis.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
