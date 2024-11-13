@@ -7,6 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+pandas = "^2.2.3"
+openai = "^1.54.3"
+tqdm = "^4.67.0"
+tenacity = "^9.0.0"
+scikit-learn = "^1.5.2"
+tiktoken = "^0.8.0"
+python-dotenv = "^1.0.1"
+seaborn = "^0.13.2"
 
 
 [build-system]
