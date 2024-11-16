@@ -13,5 +13,6 @@ Open AI Fine-tuned Rag Results:
 
 Open AI Fine-tuned with Qdrant prompting Rag Results:
 
-<img width="1152" alt="Screenshot 2024-11-12 at 10 15 04 PM" src="https://github.com/user-attachments/assets/f9b1cc76-034a-49d6-975e-604f906bcb36">
 <img width="1345" alt="Screenshot 2024-11-15 at 10 56 24 PM" src="https://github.com/user-attachments/assets/ae78fd61-a72e-4f79-a4d3-ddb6295cfa7c">
+<img width="1152" alt="Screenshot 2024-11-12 at 10 15 04 PM" src="https://github.com/user-attachments/assets/f9b1cc76-034a-49d6-975e-604f906bcb36">
+
