@@ -6,7 +6,7 @@ authors = ["Kody Buss <kody.buss@zelis.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 pandas = "^2.2.3"
 openai = "^1.54.3"
 tqdm = "^4.67.0"
@@ -15,6 +15,9 @@ scikit-learn = "^1.5.2"
 tiktoken = "^0.8.0"
 python-dotenv = "^1.0.1"
 seaborn = "^0.13.2"
+fastembed = "0.4.1"
+qdrant-client = "^1.12.1"
+onnxruntime = "1.19.2"
 
 
 [build-system]

@@ -10,6 +10,7 @@ from preprocessor import Preprocessor
 from open_ai_service import OpenAiService
 from open_ai_finetuner import OpenAIFineTuner
 from evaluator import Evaluator
+from embeddings import QdrantService
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -64,3 +65,33 @@ df = pd.read_json("local_cache/100_val_ft.json", orient="records", lines=True)
 
 # Plot the results comparing the two models
 evaluator.plot_model_comparison(["generated_answer", "ft_generated_answer"], scenario="idk_expected", nice_names=["Baseline", "Fine-Tuned"])
+
+qdrant_service = QdrantService(os.getenv("QDRANT_URL"), os.getenv("QDRANT_API_KEY"))
+train_sample["few_shot_prompt"] = train_sample.progress_apply(qdrant_service.get_few_shot_prompt, axis=1)
+
+# Create checkpoint
+with open("local_cache/100_train_few_shot.jsonl", "w") as f:
+    f.write(Preprocessor.dataframe_to_jsonl(train_sample))
+    
+# Fine-tuning the model with few-shot learning
+fine_tuner = OpenAIFineTuner(
+    training_file_path="local_cache/100_train_few_shot.jsonl",
+    model_name="gpt-4o-mini-2024-07-18",
+    suffix="trnfewshot20230907",
+    open_api_client=open_api_client
+)
+
+model_id = fine_tuner.fine_tune_model()
+model_id
+
+# Let's try this out
+completion = open_ai_service.create2(model_id)
+print("Correct Answer: Rajasthan\nModel Answer:")
+print(completion.choices[0].message)
+
+df["ft_generated_answer_few_shot"] = df.progress_apply(open_ai_service.answer_question, model=model_id, prompt_func=qdrant_service.get_few_shot_prompt, axis=1)
+df.to_json("local_cache/100_val_ft_few_shot.json", orient="records", lines=True)
+
+evaluator = Evaluator(df)
+evaluator.plot_model_comparison(["generated_answer", "ft_generated_answer", "ft_generated_answer_few_shot"], scenario="answer_expected", nice_names=["Baseline", "Fine-Tuned", "Fine-Tuned with Few-Shot"])
+evaluator.plot_model_comparison(["generated_answer", "ft_generated_answer", "ft_generated_answer_few_shot"], scenario="idk_expected", nice_names=["Baseline", "Fine-Tuned", "Fine-Tuned with Few-Shot"])

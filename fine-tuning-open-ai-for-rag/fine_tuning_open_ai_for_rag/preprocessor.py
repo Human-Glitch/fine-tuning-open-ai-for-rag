@@ -57,3 +57,12 @@ class Preprocessor:
 
         jsonl_output = df.apply(create_jsonl_entry, axis=1)
         return "\n".join(jsonl_output)
+    
+    # Prepare the OpenAI File format i.e. JSONL from train_sample
+    def few_shot_dataframe_to_jsonl(df):
+        def create_jsonl_entry(row):
+            messages = row["few_shot_prompt"]
+            return json.dumps({"messages": messages})
+
+        jsonl_output = df.progress_apply(create_jsonl_entry, axis=1)
+        return "\n".join(jsonl_output)
